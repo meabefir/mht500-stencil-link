@@ -102,7 +102,7 @@ $('connect').addEventListener('click', async () => {
     readTask = readLoop();
   } catch (error) {
     record(`Connection: ${error.name}: ${error.message}`);
-    activity(error.name === 'NotFoundError' ? 'No printer selected. Pair it in Android settings, then try Connect again.' : `Could not connect: ${error.message}`, true);
+    activity(error.name === 'NotFoundError' ? 'No printer selected. A paired or saved printer is enough; Android settings do not need to show Connected. Fully close TattooPrinter and try again. If the printer is missing, follow the setup steps above and copy the report.' : `Could not connect: ${error.message}. Fully close TattooPrinter before retrying.`, true);
   } finally {busy = false; sync();}
 });
 $('disconnect').addEventListener('click', async () => {await disconnect(); record('Disconnected.'); activity('Printer disconnected.');});
@@ -150,7 +150,7 @@ $('print').addEventListener('click', async () => {
 });
 $('printResult').addEventListener('change', () => {lastPrint = $('printResult').value || 'Bytes sent; physical result unconfirmed'; record(`Paper result: ${lastPrint}`);});
 function report() {
-  return {app: 'Stencil Link pilot 0.1',protocolSource: 'TattooPrinter 2.0.9.4 (153)',secureContext: window.isSecureContext,webSerial: !!navigator.serial,browser: navigator.userAgent,connected: !!port?.writable,printerConfirmedMHT500: $('confirmModel').checked,firmware: $('firmware').value || null,profile: $('profile').value || null,infoRequested: queried,totalBytesSent: sentBytes,printResult: lastPrint,connectionLog: messages.slice()};
+  return {app: 'Stencil Link pilot 0.1.1',protocolSource: 'TattooPrinter 2.0.9.4 (153)',secureContext: window.isSecureContext,webSerial: !!navigator.serial,browser: navigator.userAgent,connected: !!port?.writable,printerConfirmedMHT500: $('confirmModel').checked,firmware: $('firmware').value || null,profile: $('profile').value || null,infoRequested: queried,totalBytesSent: sentBytes,printResult: lastPrint,connectionLog: messages.slice()};
 }
 $('copyReport').addEventListener('click', async () => {
   const text = JSON.stringify(report(), null, 2);
