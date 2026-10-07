@@ -2,6 +2,8 @@
 
 An Android Chrome connection and calibration pilot for the MHT-500 tattoo stencil printer.
 
+**[Open the app on GitHub Pages](https://meabefir.github.io/mht500-stencil-link/)**
+
 The app uses Web Serial over Bluetooth Classic (SPP), with the normal print protocol reconstructed from the official TattooPrinter 2.0.9.4 Android app. Physical printing on the user's unit still needs verification.
 
 ## Use on Android
