@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Connect an MHT-500 stencil printer to Chrome and test its printing protocol.">
+  <meta name="theme-color" content="#244b45">
+  <title>Stencil Link · MHT-500 browser test</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23244b45'/%3E%3Cpath d='M9 5h14v22H9z' fill='%23faf6ed'/%3E%3Cpath d='M12 11h8M12 16h8M12 21h5' stroke='%23244b45' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="./"><span class="mark" aria-hidden="true">▤</span> Stencil Link</a><span class="pilot">MHT-500 · connection pilot</span></header>
+  <main>
+    <div class="intro"><p class="eyebrow">ANDROID + CHROME</p><h1>Your stencil printer.<br>From your browser.</h1><p class="intro-copy">First, check the connection. Then print a small pattern to confirm the size and transfer format.</p></div>
+    <div id="browserNotice" class="notice" role="status" hidden></div>
+    <div class="workspace">
+      <section class="connection panel" aria-labelledby="connectionTitle">
+        <div class="section-title"><span class="step">01</span><h2 id="connectionTitle">Connect your printer</h2></div>
+        <ol class="steps"><li>Turn on the printer and pair it in Android’s Bluetooth settings.</li><li>Close TattooPrinter so it releases the connection.</li><li>Tap Connect and select your paired printer.</li></ol>
+        <div class="connect-row"><span id="connectionStatus" class="status"><i></i> Not connected</span><button id="connect" class="primary">Connect printer</button><button id="disconnect" class="secondary" hidden>Disconnect</button></div>
+        <div class="divider"></div>
+        <div class="section-title"><span class="step">02</span><h2>Read printer information</h2></div>
+        <p>The firmware version selects the right print settings. This step does not print or move paper.</p>
+        <button id="readInfo" class="secondary" disabled>Read printer information</button>
+        <dl class="device-info"><div><dt>Printer response</dt><dd id="modelValue">Waiting for connection</dd></div><div><dt>Firmware</dt><dd id="firmwareValue">—</dd></div></dl>
+        <label for="firmware">Firmware version <span class="optional">if you have it in the app</span></label>
+        <input id="firmware" type="text" placeholder="Paste the version shown by TattooPrinter" autocomplete="off" spellcheck="false">
+        <label for="profile">Print settings</label>
+        <select id="profile"><option value="">Read or enter the firmware first</option><option value="legacy">Firmware before August 2026</option><option value="current">Firmware from August 2026 or later</option></select>
+        <p id="profileNote" class="fine">Two MHT-500 firmware families use different settings.</p>
+        <label class="check"><input id="confirmModel" type="checkbox"><span>I confirm the printer is an MHT-500.</span></label>
+      </section>
+      <section class="calibration panel" aria-labelledby="calibrationTitle">
+        <div class="section-title"><span class="step">03</span><h2 id="calibrationTitle">Check the first print</h2></div>
+        <div class="paper-preview"><div class="paper-label">CALIBRATION PATTERN</div><svg viewBox="0 0 400 260" role="img" aria-label="Calibration rectangle, 40 millimeters wide and 20 millimeters high, with a ruler in 10 millimeter intervals"><path d="M40 45H360V205H40Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M190 125h20m-10-10v20" stroke="currentColor" stroke-width="2"/><text x="200" y="31" text-anchor="middle">40 mm</text><text x="20" y="130" text-anchor="middle" transform="rotate(-90 20 130)">20 mm</text><path d="M40 225v15h320v-15m-240 0v15m80-15v15m80-15v15" fill="none" stroke="currentColor"/><text x="40" y="258" text-anchor="middle">0</text><text x="120" y="258" text-anchor="middle">10</text><text x="200" y="258" text-anchor="middle">20</text><text x="280" y="258" text-anchor="middle">30</text><text x="360" y="258" text-anchor="middle">40 mm</text></svg><div class="paper-caption">Measure the outside edges after printing.</div></div>
+        <p>Load stencil paper. The test sends a 40 × 20 mm rectangle with a small ruler, using the app’s low density setting.</p>
+        <p class="fine">The commands were recovered from the official app. A physical print is still needed to verify them on your printer.</p>
+        <button id="print" class="primary full" disabled>Print calibration pattern</button>
+        <progress id="progress" max="100" value="0" hidden aria-label="Transfer progress"></progress>
+        <p id="activity" class="activity" aria-live="polite">Connect the printer to begin.</p>
+        <div id="resultActions" hidden><label for="printResult">What came out?</label><select id="printResult"><option value="">Choose the result</option><option>Printed correctly, rectangle measures 40 × 20 mm</option><option>Nothing printed</option><option>Printed, but the size or image is wrong</option></select></div>
+      </section>
+    </div>
+    <section class="report panel"><div class="report-heading"><div><h2>Connection report</h2><p>Copy this back into our chat after the test so we can finish the app.</p></div><button id="copyReport" class="secondary">Copy report</button></div><details><summary>Show connection details</summary><pre id="log">No printer data yet.</pre></details></section>
+    <footer>Printer data stays in this browser. Wi-Fi or mobile data loads the site; Bluetooth carries the printer commands.</footer>
+  </main>
+</body>
+</html>
